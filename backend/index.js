@@ -11,7 +11,13 @@ dotenv.config({path:'../.env'});
 const app =express();
 
 
-app.use(cors({origin:true}))
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true
+}));
+
+app.use(express.json());
+app.use(cookieParser());
 mongoose
 .connect(process.env.MONGO)
 .then(()=>{
@@ -21,8 +27,7 @@ mongoose
 })
 
 
-app.use(express.json());
-app.use(cookieParser());
+
 const port=3000
 
 app.listen(port,()=>{

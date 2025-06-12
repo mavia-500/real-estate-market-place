@@ -3,6 +3,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import OAuth from "../components/OAuth";
+
+
 const SignUp = () => {
   const [formData, setForamData] = useState({});
   const [error, setError]=useState(null)
@@ -22,6 +24,7 @@ const SignUp = () => {
       const res=await fetch('http://localhost:3000/api/auth/signup',
         {
           method:'Post',
+          credentials: "include",
           headers:{
             'Content-Type':'application/json',
           },
@@ -29,7 +32,7 @@ const SignUp = () => {
         }
       );
       const data= await res.json();
-      console.log(data);
+      console.log('checkdata',data);
       if(data.success === false){
         setError(data.message);
         setLoading(false)

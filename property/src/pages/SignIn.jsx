@@ -3,55 +3,56 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { signInStart,signInFailure,signInSuccess } from "../redux/user/userSlice";
+import {
+  signInStart,
+  signInFailure,
+  signInSuccess,
+} from "../redux/user/userSlice";
 import OAuth from "../components/OAuth";
 const SignIn = () => {
   const [formData, setForamData] = useState({});
-  const {loading,error}=useSelector((state)=>state.user);
-  const navigate=useNavigate();
-  const dispatch=useDispatch();
+  const { loading, error } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
+  
   const handleChange = (e) => {
     setForamData({
       ...formData,
       [e.target.id]: e.target.value,
-    }); 
+    });
   };
   // console.log(formData)
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      dispatch(signInStart())
+      dispatch(signInStart());
       // setLoading(true)
-      const res=await fetch('http://localhost:3000/api/auth/signin',
-        {
-          method:'Post',
-          headers:{
-            'Content-Type':'application/json',
-          },
-          body:JSON.stringify(formData)
-        }
-      );
-      const data= await res.json();
+      const res = await fetch("http://localhost:3000/api/auth/signin", {
+        method: "Post",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
       console.log(data);
-      if(data.success === false){
-       dispatch(signInFailure(data.message))
+      if (data.success === false) {
+        dispatch(signInFailure(data.message));
         return;
       }
-  
-     dispatch(signInSuccess(data))
-      navigate('/')
+
+      dispatch(signInSuccess(data));
+      navigate("/");
     } catch (error) {
-      dispatch(signInFailure(error.message))
+      dispatch(signInFailure(error.message));
     }
-   
-   
   };
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl text-center font-semibold my-7">Sign IN</h1>
       <form onSubmit={handleSubmit} action="" className="flex flex-col gap-4">
-       
-
         <input
           type="email"
           placeholder="email"
@@ -67,10 +68,13 @@ const SignIn = () => {
           id="password"
           onChange={handleChange}
         />
-        <button disabled={loading} className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80">
-          {loading ? 'loading...' : 'Sign In'}
+        <button
+          disabled={loading}
+          className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
+        >
+          {loading ? "loading..." : "Sign In"}
         </button>
-        <OAuth/>
+        <OAuth />
       </form>
       <div className="flex gap-2 mt-5">
         <p>Dont have a Accuount?</p>
