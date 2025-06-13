@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useRef } from 'react'
+import {Link} from "react-router-dom"
 import { updateUserFailure,updateUserSuccess,updateUserStart, deleteUserStart, deleteUserFailure, deleteUserSuccess, signOutUserStart, signOutUserFailure, signOutUserSuccess } from '../redux/user/userSlice'
 
 import { useDispatch } from 'react-redux'
@@ -117,6 +118,7 @@ const handleSignOut=async()=>{
        
         <input type='password'  onChange={handleChange}id='password' placeholder='password' className='border p-3 rounded-lg'/>
         <button disabled={loading}className='bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80'>{loading? 'loading...':'Update'}</button>
+        <Link className='bg-green-700 text-white p-3 rounded-lg uppercase text-center hover:opacity-90' to={'/create-listing'}>create Listing</Link>
       </form>
       <div className='flex justify-between mt-5'>
         <span onClick={handleDeleteUser}className='text-red-700 cursor-pointer'>Delete Account </span>
