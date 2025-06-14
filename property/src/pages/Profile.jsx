@@ -27,6 +27,22 @@ const Profile = () => {
   const { currentUser, loading, error } = useSelector((state) => state.user);
   // console.log(currentUser);
 
+
+  const handleListingDelete=async(listingId)=>{
+    try {
+      const res=await fetch(`/api/listing/delete/${listingId}`,{
+        method:"Delete"
+      })
+      const data=await res.json();
+      if(data.success ===false){
+        console.log(data.message)
+        return
+      }
+      setUserListing((prev)=>prev.filter((listing)=>listing._id !== listingId))
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
   const handleShowListings =async () => {
     
     try {
@@ -231,7 +247,7 @@ const Profile = () => {
           <Link className="text-slate-700 font-semibold flex-1 hover:underline truncate" to={`/listing/${listings._id}`}>
           <p >{listings.name}</p></Link>
           <div className="flex flex-col items-center">
-            <button className="text-red-700"> Delete</button>
+            <button onClick={()=>handleListingDelete(listings._id)} className="text-red-700"> Delete</button>
             <button className="text-green-700">Edit</button>
           </div>
         </div>
