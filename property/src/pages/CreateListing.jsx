@@ -1,13 +1,16 @@
   import React, { useRef, useState } from "react";
   import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+  
 
-  const CreateListing = () => {
+const CreateListing = () => {
     const [files, setFiles] = useState([]);
     const[error,setError]=useState(null);
     const [loading,setLoading]=useState(false);
     const {currentUser}=useSelector(state=>state.user)
   //   const userRef=useRef(null)
-    const [formData, setFormData] = useState({
+  const navigate=useNavigate() 
+  const [formData, setFormData] = useState({
       // imageUrls: [],
       name: "",
       description: "",
@@ -76,6 +79,7 @@
       if(data.success===false){
           setError(error.message);
       }
+      navigate(`/listing/${data._id}`);
   } catch (error) {
       setError(error.message)
       setLoading(false)

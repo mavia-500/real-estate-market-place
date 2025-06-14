@@ -1,12 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate  } from "react-router-dom";
+// import { } from "react-router-dom";
 
 const UpdateListing = () => {
   const [files, setFiles] = useState([]);
   const[error,setError]=useState(null);
   const [loading,setLoading]=useState(false);
   const {currentUser}=useSelector(state=>state.user)
+  const navigate=useNavigate()
 //   const userRef=useRef(null)
 const params=useParams()
 useEffect(()=>{
@@ -87,11 +89,12 @@ try {
     
     console.log(formData)
     const data=await res.json();
-    console.log(data)
+    console.log(data._id)
     setLoading(false);
     if(data.success===false){
-        setError(error.message);
+        setError(data.message);
     }
+    navigate(`/listing/${data._id}`);
 } catch (error) {
     setError(error.message)
     setLoading(false)
